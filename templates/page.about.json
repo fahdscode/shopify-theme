@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "about-hero": {
+      "type": "about-hero",
+      "settings": {
+        "title": "WHO WE ARE",
+        "subtitle": "OPPOZITE WEARS"
+      }
+    },
+    "about-story": {
+      "type": "about-story",
+      "settings": {}
+    },
+    "about-values": {
+      "type": "about-values",
+      "settings": {}
+    }
+  },
+  "order": ["main", "about-hero", "about-story", "about-values"]
+}

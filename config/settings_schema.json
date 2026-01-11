@@ -1,0 +1,268 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Oppozite Wears",
+    "theme_version": "1.0.0",
+    "theme_author": "Oppozite",
+    "theme_documentation_url": "https://oppozite.com/help",
+    "theme_support_url": "mailto:support@oppozite.com"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "default": 120,
+        "unit": "px",
+        "label": "Logo width"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary colors"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_foreground",
+        "label": "Foreground / Text",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#0a0a0a"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary text",
+        "default": "#6b7280"
+      },
+      {
+        "type": "header",
+        "content": "Accent colors"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#f59e0b"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted background",
+        "default": "#f5f5f5"
+      },
+      {
+        "type": "header",
+        "content": "Status colors"
+      },
+      {
+        "type": "color",
+        "id": "color_error",
+        "label": "Error",
+        "default": "#ef4444"
+      },
+      {
+        "type": "color",
+        "id": "color_success",
+        "label": "Success",
+        "default": "#22c55e"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Header font",
+        "default": "bebas_neue_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "label": "Body font",
+        "default": "inter_n4"
+      },
+      {
+        "type": "range",
+        "id": "type_header_size",
+        "min": 0.8,
+        "max": 1.5,
+        "step": 0.1,
+        "default": 1,
+        "label": "Heading font size scale"
+      },
+      {
+        "type": "range",
+        "id": "type_body_size",
+        "min": 0.8,
+        "max": 1.5,
+        "step": 0.1,
+        "default": 1,
+        "label": "Body font size scale"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social media links"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram",
+        "default": "https://instagram.com/oppozite"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter",
+        "label": "Twitter / X",
+        "default": "https://twitter.com/oppozite"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok",
+        "default": "https://tiktok.com/@oppozite"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "min": 0,
+        "max": 500,
+        "step": 10,
+        "default": 150,
+        "unit": "$",
+        "label": "Free shipping threshold",
+        "info": "Set to 0 to disable free shipping progress bar"
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "product_enable_quick_add",
+        "label": "Enable quick add",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "product_show_secondary_image",
+        "label": "Show secondary image on hover",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "collection_image_ratio",
+        "label": "Product image ratio",
+        "options": [
+          { "value": "square", "label": "Square (1:1)" },
+          { "value": "portrait", "label": "Portrait (3:4)" },
+          { "value": "landscape", "label": "Landscape (4:3)" },
+          { "value": "natural", "label": "Natural" }
+        ],
+        "default": "portrait"
+      },
+      {
+        "type": "range",
+        "id": "collection_products_per_page",
+        "min": 8,
+        "max": 48,
+        "step": 4,
+        "default": 24,
+        "label": "Products per page"
+      }
+    ]
+  },
+  {
+    "name": "Checkout",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "checkout_logo",
+        "label": "Checkout logo"
+      },
+      {
+        "type": "select",
+        "id": "checkout_logo_position",
+        "label": "Logo position",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "left"
+      }
+    ]
+  }
+]

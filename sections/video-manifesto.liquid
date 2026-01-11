@@ -1,0 +1,219 @@
+{%- comment -%}
+  Video Manifesto Section - Oppozite Wears
+  Full-width video section with overlay content
+{%- endcomment -%}
+
+<section class="video-manifesto-section" data-section-id="{{ section.id }}">
+  <div class="video-manifesto-background">
+    {%- if section.settings.video_url != blank -%}
+      {{ section.settings.video_url | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'video-manifesto-video', image_size: '1920x' }}
+    {%- elsif section.settings.poster_image != blank -%}
+      <img 
+        src="{{ section.settings.poster_image | image_url: width: 1920 }}"
+        alt="{{ section.settings.poster_image.alt | default: section.settings.title }}"
+        width="{{ section.settings.poster_image.width }}"
+        height="{{ section.settings.poster_image.height }}"
+        class="video-manifesto-image"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="video-manifesto-placeholder"></div>
+    {%- endif -%}
+    
+    <div class="video-manifesto-overlay" style="background-color: rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }});"></div>
+  </div>
+
+  <div class="video-manifesto-content">
+    <div class="container">
+      <div class="video-manifesto-inner" data-animate="fade-up">
+        {%- if section.settings.overline != blank -%}
+          <span class="video-manifesto-overline">{{ section.settings.overline }}</span>
+        {%- endif -%}
+        
+        {%- if section.settings.title != blank -%}
+          <h2 class="video-manifesto-title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.text != blank -%}
+          <p class="video-manifesto-text">{{ section.settings.text }}</p>
+        {%- endif -%}
+        
+        {%- if section.settings.button_text != blank -%}
+          <a href="{{ section.settings.button_link }}" class="video-manifesto-btn">
+            {{ section.settings.button_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .video-manifesto-section {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .video-manifesto-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .video-manifesto-video,
+  .video-manifesto-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-manifesto-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  }
+
+  .video-manifesto-overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .video-manifesto-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 4rem 0;
+    color: hsl(var(--background));
+  }
+
+  .video-manifesto-inner {
+    max-width: 700px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .video-manifesto-overline {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: hsl(var(--background) / 0.6);
+    margin-bottom: 1.5rem;
+  }
+
+  .video-manifesto-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .video-manifesto-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: hsl(var(--background) / 0.8);
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .video-manifesto-text {
+      font-size: 1.125rem;
+    }
+  }
+
+  .video-manifesto-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid hsl(var(--background) / 0.5);
+    color: hsl(var(--background));
+    transition: all var(--transition-smooth);
+  }
+
+  .video-manifesto-btn:hover {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--background));
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Video Manifesto",
+  "tag": "section",
+  "class": "section-video-manifesto",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video/Image"
+    },
+    {
+      "type": "video",
+      "id": "video_url",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster image / Background"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "%",
+      "label": "Overlay opacity"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "default": "The Manifesto",
+      "label": "Overline text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "WEAR THE VIBE",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Fashion is not just what you wear—it's who you are. We don't follow trends. We create moments. Every piece tells a story of authenticity, boldness, and unapologetic self-expression.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Discover Our Story",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "default": "/pages/about",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Manifesto"
+    }
+  ]
+}
+{% endschema %}

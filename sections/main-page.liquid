@@ -1,0 +1,125 @@
+{%- comment -%}
+  Main Page Section - Oppozite Wears
+  Default page template content
+{%- endcomment -%}
+
+{%- style -%}
+  .page-section {
+    padding: var(--section-spacing) var(--container-padding);
+  }
+  
+  .page-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+  
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    margin: 0;
+  }
+  
+  .page-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted-foreground);
+  }
+  
+  .page-content h2,
+  .page-content h3,
+  .page-content h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--foreground);
+    margin: var(--spacing-xl) 0 var(--spacing-md);
+  }
+  
+  .page-content h2 {
+    font-size: 1.75rem;
+  }
+  
+  .page-content h3 {
+    font-size: 1.5rem;
+  }
+  
+  .page-content h4 {
+    font-size: 1.25rem;
+  }
+  
+  .page-content p {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .page-content a {
+    color: var(--foreground);
+    text-decoration: underline;
+  }
+  
+  .page-content ul,
+  .page-content ol {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-lg);
+  }
+  
+  .page-content li {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .page-content img {
+    max-width: 100%;
+    height: auto;
+    margin: var(--spacing-lg) 0;
+  }
+  
+  .page-content blockquote {
+    border-left: 2px solid var(--foreground);
+    padding-left: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    font-style: italic;
+  }
+  
+  .page-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-lg) 0;
+  }
+  
+  .page-content th,
+  .page-content td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  
+  .page-content th {
+    background: var(--muted);
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+{%- endstyle -%}
+
+<section class="page-section">
+  <div class="page-container">
+    <header class="page-header">
+      <h1 class="page-title">{{ page.title }}</h1>
+    </header>
+    
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "tag": "section",
+  "class": "section-page"
+}
+{% endschema %}

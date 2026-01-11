@@ -1,0 +1,277 @@
+{%- comment -%}
+  Main FAQ Section - Oppozite Wears
+  FAQ accordion page
+{%- endcomment -%}
+
+{%- style -%}
+  .faq-section {
+    padding: var(--section-spacing) var(--container-padding);
+  }
+  
+  .faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+  
+  .faq-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    margin: 0 0 var(--spacing-md);
+  }
+  
+  .faq-description {
+    font-size: 1rem;
+    color: var(--muted-foreground);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .faq-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .faq-category-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: transparent;
+    border: 1px solid var(--border);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .faq-category-btn:hover,
+  .faq-category-btn.is-active {
+    background: var(--foreground);
+    color: var(--background);
+    border-color: var(--foreground);
+  }
+  
+  .faq-accordion {
+    border-top: 1px solid var(--border);
+  }
+  
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .faq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg) 0;
+    background: transparent;
+    border: none;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  
+  .faq-trigger:hover {
+    opacity: 0.7;
+  }
+  
+  .faq-trigger-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  
+  .faq-item.is-open .faq-trigger-icon {
+    transform: rotate(45deg);
+  }
+  
+  .faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .faq-answer {
+    padding: 0 0 var(--spacing-lg);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--muted-foreground);
+  }
+  
+  .faq-answer a {
+    color: var(--foreground);
+    text-decoration: underline;
+  }
+  
+  .faq-contact {
+    text-align: center;
+    margin-top: var(--spacing-3xl);
+    padding: var(--spacing-xl);
+    background: var(--muted);
+  }
+  
+  .faq-contact-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin: 0 0 var(--spacing-sm);
+  }
+  
+  .faq-contact-text {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    margin-bottom: var(--spacing-md);
+  }
+{%- endstyle -%}
+
+<section class="faq-section">
+  <div class="faq-container">
+    <header class="faq-header">
+      <h1 class="faq-title">{{ section.settings.title }}</h1>
+      {%- if section.settings.description != blank -%}
+        <p class="faq-description">{{ section.settings.description }}</p>
+      {%- endif -%}
+    </header>
+    
+    <div class="faq-accordion" data-accordion>
+      {%- for block in section.blocks -%}
+        <div class="faq-item" data-accordion-item {{ block.shopify_attributes }}>
+          <button class="faq-trigger" data-accordion-trigger>
+            <span>{{ block.settings.question }}</span>
+            <svg class="faq-trigger-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+          <div class="faq-content" data-accordion-content>
+            <div class="faq-answer">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    
+    {%- if section.settings.show_contact -%}
+      <div class="faq-contact">
+        <h3 class="faq-contact-title">Still have questions?</h3>
+        <p class="faq-contact-text">We're here to help. Reach out to our support team.</p>
+        <a href="{{ pages['contact'].url | default: '/pages/contact' }}" class="btn-primary">
+          Contact Us
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "tag": "section",
+  "class": "section-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "FREQUENTLY ASKED QUESTIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Find answers to common questions about orders, shipping, returns, and more."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact",
+      "label": "Show contact section",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How do I track my order?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Once your order ships, you'll receive a confirmation email with tracking information. You can also check your order status in your account dashboard.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Page",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I track my order?",
+            "answer": "<p>Once your order ships, you'll receive a confirmation email with tracking information. You can also check your order status in your account dashboard.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We accept returns within 30 days of purchase. Items must be unworn, unwashed, and in original condition with tags attached. Visit our Returns page for more details.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping takes 5-7 business days. Express shipping is 2-3 business days. International orders may take 7-14 business days depending on location.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer international shipping?",
+            "answer": "<p>Yes! We ship to over 100 countries worldwide. Shipping rates and delivery times vary by location. Check our Shipping page for details.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How do I find my size?",
+            "answer": "<p>Check our Size Guide for detailed measurements and fit recommendations. If you're between sizes, we recommend sizing up for a more relaxed fit.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I modify or cancel my order?",
+            "answer": "<p>Orders can be modified or cancelled within 1 hour of placement. After that, our warehouse begins processing and changes may not be possible. Contact us immediately if you need assistance.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

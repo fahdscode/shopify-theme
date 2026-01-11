@@ -1,0 +1,96 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "overline": "New Season Drop",
+        "title": "OPPOZITE",
+        "tagline": "WEAR THE VIBE",
+        "subtitle": "Stand out from the crowd. Premium streetwear designed for those who dare to be different.",
+        "button_text": "Shop Now",
+        "button_link": "/collections/all",
+        "overlay_opacity": 70,
+        "show_scroll_indicator": true
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "text": "NEW ARRIVALS — FREE SHIPPING OVER $150 — EXCLUSIVE DROPS — ",
+        "speed": 30
+      }
+    },
+    "featured-products": {
+      "type": "featured-products",
+      "settings": {
+        "overline": "Featured",
+        "title": "NEW DROPS",
+        "products_count": 8,
+        "view_all_link": true,
+        "show_navigation": true
+      }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "settings": {
+        "overline": "Editorial",
+        "title": "LOOKBOOK"
+      },
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "title": "Collection One"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "title": "Collection Two"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "title": "Collection Three"
+          }
+        },
+        "slide-4": {
+          "type": "slide",
+          "settings": {
+            "title": "Collection Four"
+          }
+        }
+      },
+      "block_order": ["slide-1", "slide-2", "slide-3", "slide-4"]
+    },
+    "statement": {
+      "type": "statement",
+      "settings": {
+        "overline": "Our Philosophy",
+        "text": "We create for the bold. The ones who stand apart. The individuals who see fashion as a form of rebellion.",
+        "button_text": "Learn More",
+        "button_link": "/pages/about"
+      }
+    },
+    "video-manifesto": {
+      "type": "video-manifesto",
+      "settings": {
+        "overline": "The Manifesto",
+        "title": "WEAR THE VIBE",
+        "text": "Fashion is not just what you wear—it's who you are. We don't follow trends. We create moments.",
+        "button_text": "Discover Our Story",
+        "button_link": "/pages/about",
+        "overlay_opacity": 60
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "featured-products",
+    "lookbook",
+    "statement",
+    "video-manifesto"
+  ]
+}

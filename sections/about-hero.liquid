@@ -1,0 +1,110 @@
+{%- comment -%}
+  About Hero Section - Oppozite Wears
+  Full-width hero for the about page
+{%- endcomment -%}
+
+{%- style -%}
+  .about-hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--foreground);
+    color: var(--background);
+    overflow: hidden;
+  }
+  
+  .about-hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.3;
+  }
+  
+  .about-hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .about-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: var(--spacing-xl);
+  }
+  
+  .about-hero-subtitle {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .about-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<section class="about-hero">
+  {%- if section.settings.image != blank -%}
+    <div class="about-hero-bg">
+      <img 
+        src="{{ section.settings.image | image_url: width: 1920 }}"
+        alt="{{ section.settings.image.alt | escape }}"
+        width="1920"
+        height="1080"
+        loading="eager"
+      >
+    </div>
+  {%- endif -%}
+  
+  <div class="about-hero-content">
+    {%- if section.settings.subtitle != blank -%}
+      <p class="about-hero-subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+    
+    <h1 class="about-hero-title">{{ section.settings.title }}</h1>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Hero",
+  "tag": "section",
+  "class": "section-about-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "OPPOZITE WEARS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "WHO WE ARE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero"
+    }
+  ]
+}
+{% endschema %}

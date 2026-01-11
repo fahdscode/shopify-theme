@@ -1,0 +1,173 @@
+{%- comment -%}
+  Header Section - Oppozite Wears
+  Fixed navigation with logo, search, account, and cart
+{%- endcomment -%}
+
+<header class="header" id="header" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="header-inner">
+      {%- comment -%} Mobile Menu Button {%- endcomment -%}
+      <button 
+        class="header-menu-btn" 
+        aria-label="{{ 'accessibility.menu' | t }}"
+        data-action="open-mobile-menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      {%- comment -%} Desktop Navigation - Left {%- endcomment -%}
+      <nav class="header-nav" aria-label="{{ 'accessibility.main_nav' | t }}">
+        {%- for link in section.settings.menu.links -%}
+          {%- if link.links.size > 0 -%}
+            <div class="header-nav-item">
+              <a 
+                href="{{ link.url }}" 
+                class="header-nav-link{% if link.active %} is-active{% endif %}"
+              >
+                {{ link.title }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 4px;">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </a>
+              <div class="header-nav-dropdown">
+                {%- for childlink in link.links -%}
+                  <a href="{{ childlink.url }}" class="header-nav-dropdown-link">
+                    {{ childlink.title }}
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- else -%}
+            <a 
+              href="{{ link.url }}" 
+              class="header-nav-link{% if link.active %} is-active{% endif %}"
+            >
+              {{ link.title }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <a href="{{ routes.root_url }}" class="header-logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img 
+            src="{{ section.settings.logo | image_url: width: 200 }}" 
+            alt="{{ shop.name }}"
+            width="{{ section.settings.logo_width | default: 120 }}"
+            height="auto"
+            loading="eager"
+          >
+        {%- else -%}
+          <span class="text-display" style="font-size: 1.5rem; letter-spacing: 0.1em;">{{ shop.name | upcase }}</span>
+        {%- endif -%}
+      </a>
+
+      {%- comment -%} Header Actions {%- endcomment -%}
+      <div class="header-actions">
+        {%- comment -%} Search {%- endcomment -%}
+        <button 
+          class="header-action-btn" 
+          aria-label="{{ 'general.search.search' | t }}"
+          data-action="open-search"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+
+        {%- comment -%} Account {%- endcomment -%}
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="user-dropdown mobile:hidden">
+            <a href="{{ routes.account_url }}" class="header-action-btn" aria-label="{{ 'customer.account.title' | t }}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
+            <div class="user-dropdown-menu">
+              {%- if customer -%}
+                <a href="{{ routes.account_url }}" class="user-dropdown-item">{{ 'customer.account.title' | t }}</a>
+                <a href="{{ routes.account_logout_url }}" class="user-dropdown-item">{{ 'customer.log_out' | t }}</a>
+              {%- else -%}
+                <a href="{{ routes.account_login_url }}" class="user-dropdown-item">{{ 'customer.login.sign_in' | t }}</a>
+                <a href="{{ routes.account_register_url }}" class="user-dropdown-item">{{ 'customer.register.title' | t }}</a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Cart {%- endcomment -%}
+        <button 
+          class="header-action-btn" 
+          aria-label="{{ 'sections.cart.title' | t }}"
+          data-action="open-cart"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="header-cart-count" id="cartCount">{{ cart.item_count }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} Spacer for fixed header {%- endcomment -%}
+<div style="height: 64px;"></div>
+<style>
+  @media (min-width: 768px) {
+    div[style*="height: 64px"] {
+      height: 80px !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "default": 120,
+      "unit": "px",
+      "label": "Logo width"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "default": true,
+      "label": "Enable sticky header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "default": true,
+      "label": "Show announcement bar"
+    }
+  ]
+}
+{% endschema %}

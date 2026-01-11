@@ -1,0 +1,230 @@
+{%- comment -%}
+  Featured Products Section - Oppozite Wears
+  Displays products from a selected collection with carousel
+{%- endcomment -%}
+
+{%- liquid
+  assign collection = section.settings.collection
+  if collection == blank
+    assign collection = collections.all
+  endif
+  
+  assign products_count = section.settings.products_count | default: 8
+-%}
+
+<section class="featured-products section" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="featured-products-header">
+      <div class="featured-products-title-wrapper" data-animate="fade-up">
+        {%- if section.settings.overline != blank -%}
+          <span class="featured-products-overline">{{ section.settings.overline }}</span>
+        {%- endif -%}
+        <h2 class="featured-products-title">{{ section.settings.title | default: collection.title | upcase }}</h2>
+      </div>
+      
+      {%- if section.settings.view_all_link -%}
+        <a href="{{ collection.url }}" class="featured-products-link" data-animate="fade-up" data-delay="100">
+          View All
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Products Grid/Carousel {%- endcomment -%}
+    {%- if collection.products.size > 0 -%}
+      <div class="featured-products-grid" data-carousel>
+        <div class="featured-products-track">
+          {%- for product in collection.products limit: products_count -%}
+            <div class="featured-products-item" data-animate="fade-up" data-delay="{{ forloop.index | times: 50 }}">
+              {% render 'product-card', product: product, index: forloop.index %}
+            </div>
+          {%- endfor -%}
+        </div>
+        
+        {%- comment -%} Carousel Navigation {%- endcomment -%}
+        {%- if section.settings.show_navigation and collection.products.size > 4 -%}
+          <div class="featured-products-nav">
+            <button class="featured-products-nav-btn" data-carousel-prev aria-label="Previous">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+            <button class="featured-products-nav-btn" data-carousel-next aria-label="Next">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="empty-state">
+        <p>No products found in this collection.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .featured-products {
+    padding: 6rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products {
+      padding: 8rem 0;
+    }
+  }
+
+  .featured-products-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products-header {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+  }
+
+  .featured-products-overline {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.5rem;
+  }
+
+  .featured-products-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    margin: 0;
+  }
+
+  .featured-products-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: gap var(--transition-smooth);
+  }
+
+  .featured-products-link:hover {
+    gap: 1rem;
+  }
+
+  .featured-products-grid {
+    position: relative;
+  }
+
+  .featured-products-track {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products-track {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .featured-products-nav {
+    display: none;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .featured-products-nav {
+      display: flex;
+    }
+  }
+
+  .featured-products-nav-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: 50%;
+    transition: all var(--transition-smooth);
+  }
+
+  .featured-products-nav-btn:hover {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-color: hsl(var(--foreground));
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "tag": "section",
+  "class": "section-featured-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "default": "Featured",
+      "label": "Overline text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "NEW DROPS",
+      "label": "Title"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "default": 8,
+      "label": "Number of products"
+    },
+    {
+      "type": "checkbox",
+      "id": "view_all_link",
+      "default": true,
+      "label": "Show 'View All' link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "default": true,
+      "label": "Show carousel navigation"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,127 @@
+{%- comment -%}
+  Statement Section - Oppozite Wears
+  Brand statement/manifesto section with large typography
+{%- endcomment -%}
+
+<section class="statement-section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="statement-content" data-animate="fade-up">
+      {%- if section.settings.overline != blank -%}
+        <span class="statement-overline">{{ section.settings.overline }}</span>
+      {%- endif -%}
+      
+      <h2 class="statement-text">
+        {{ section.settings.text | default: 'We create for the bold. The ones who stand apart. The individuals who see fashion as a form of rebellion.' }}
+      </h2>
+      
+      {%- if section.settings.button_text != blank -%}
+        <a href="{{ section.settings.button_link }}" class="statement-btn">
+          {{ section.settings.button_text }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .statement-section {
+    padding: 8rem 0;
+    background-color: {{ section.settings.background_color | default: 'hsl(var(--muted) / 0.3)' }};
+  }
+
+  @media (min-width: 768px) {
+    .statement-section {
+      padding: 12rem 0;
+    }
+  }
+
+  .statement-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .statement-overline {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 2rem;
+  }
+
+  .statement-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3.5rem);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    margin: 0 0 3rem;
+  }
+
+  .statement-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    transition: all var(--transition-smooth);
+  }
+
+  .statement-btn:hover {
+    background-color: hsl(var(--foreground) / 0.9);
+    gap: 1rem;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Statement",
+  "tag": "section",
+  "class": "section-statement",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "default": "Our Philosophy",
+      "label": "Overline text"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "We create for the bold. The ones who stand apart. The individuals who see fashion as a form of rebellion.",
+      "label": "Statement text"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Learn More",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "default": "/pages/about",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Statement"
+    }
+  ]
+}
+{% endschema %}

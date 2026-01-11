@@ -1,0 +1,410 @@
+{%- comment -%}
+  Hero Section - Oppozite Wears
+  Full-screen hero with video background and parallax effects
+{%- endcomment -%}
+
+<section class="hero-section" data-section-id="{{ section.id }}">
+  {%- comment -%} Background Video or Image {%- endcomment -%}
+  <div class="hero-background">
+    {%- if section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'hero-video', image_size: '1920x' }}
+    {%- elsif section.settings.background_image != blank -%}
+      <img 
+        src="{{ section.settings.background_image | image_url: width: 1920 }}"
+        srcset="{{ section.settings.background_image | image_url: width: 768 }} 768w,
+                {{ section.settings.background_image | image_url: width: 1200 }} 1200w,
+                {{ section.settings.background_image | image_url: width: 1920 }} 1920w"
+        sizes="100vw"
+        alt="{{ section.settings.background_image.alt | default: shop.name }}"
+        width="{{ section.settings.background_image.width }}"
+        height="{{ section.settings.background_image.height }}"
+        class="hero-image"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="hero-placeholder"></div>
+    {%- endif -%}
+    
+    {%- comment -%} Overlay {%- endcomment -%}
+    <div class="hero-overlay" style="background-color: rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }});"></div>
+  </div>
+
+  {%- comment -%} Content {%- endcomment -%}
+  <div class="hero-content">
+    <div class="container">
+      <div class="hero-inner">
+        {%- comment -%} Overline {%- endcomment -%}
+        {%- if section.settings.overline != blank -%}
+          <p class="hero-overline" data-animate="fade-up">
+            {{ section.settings.overline }}
+          </p>
+        {%- endif -%}
+
+        {%- comment -%} Logo or Title {%- endcomment -%}
+        <div class="hero-title-container" data-animate="fade-up" data-delay="100">
+          {%- if section.settings.hero_logo != blank -%}
+            <img 
+              src="{{ section.settings.hero_logo | image_url: width: 600 }}"
+              alt="{{ shop.name }}"
+              width="{{ section.settings.hero_logo.width }}"
+              height="{{ section.settings.hero_logo.height }}"
+              class="hero-logo"
+            >
+          {%- endif -%}
+          
+          {%- if section.settings.title != blank -%}
+            <h1 class="hero-title">{{ section.settings.title }}</h1>
+          {%- endif -%}
+          
+          {%- if section.settings.tagline != blank -%}
+            <span class="hero-tagline">{{ section.settings.tagline }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Subtitle {%- endcomment -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="hero-subtitle" data-animate="fade-up" data-delay="200">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+
+        {%- comment -%} CTA Buttons {%- endcomment -%}
+        <div class="hero-actions" data-animate="fade-up" data-delay="300">
+          {%- if section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_link }}" class="hero-btn hero-btn-primary">
+              {{ section.settings.button_text }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          {%- endif -%}
+          
+          {%- if section.settings.secondary_button_text != blank -%}
+            <a href="{{ section.settings.secondary_button_link }}" class="hero-btn hero-btn-outline">
+              {{ section.settings.secondary_button_text }}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Scroll Indicator {%- endcomment -%}
+  {%- if section.settings.show_scroll_indicator -%}
+    <div class="hero-scroll-indicator">
+      <span class="hero-scroll-text">Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+  }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-video,
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0.7);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 8rem 0;
+  }
+
+  .hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-overline {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: hsl(var(--background) / 0.6);
+    margin-bottom: 2rem;
+  }
+
+  .hero-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .hero-logo {
+    width: 80vw;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .hero-logo {
+      width: 20vw;
+      max-width: 300px;
+    }
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 10vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: hsl(var(--background) / 0.8);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    color: hsl(var(--background) / 0.7);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  @media (min-width: 768px) {
+    .hero-subtitle {
+      font-size: 1.25rem;
+    }
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .hero-actions {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 2.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all var(--transition-smooth);
+  }
+
+  .hero-btn svg {
+    transition: transform var(--transition-smooth);
+  }
+
+  .hero-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  .hero-btn-primary {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  .hero-btn-primary:hover {
+    background-color: hsl(var(--background) / 0.9);
+  }
+
+  .hero-btn-outline {
+    border: 1px solid hsl(var(--background) / 0.5);
+    color: hsl(var(--background));
+  }
+
+  .hero-btn-outline:hover {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--background));
+  }
+
+  /* Scroll Indicator */
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .hero-scroll-text {
+    font-size: 0.625rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: hsl(var(--background) / 0.4);
+  }
+
+  .hero-scroll-line {
+    width: 1px;
+    height: 2rem;
+    background-color: hsl(var(--background) / 0.4);
+    animation: scrollIndicator 1.5s ease-in-out infinite;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Video poster image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image (fallback)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 70,
+      "unit": "%",
+      "label": "Overlay opacity"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "default": "New Season Drop",
+      "label": "Overline text"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_logo",
+      "label": "Hero logo image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "OPPOZITE",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "default": "WEAR THE VIBE",
+      "label": "Tagline"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "default": "Stand out from the crowd. Premium streetwear designed for those who dare to be different.",
+      "label": "Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Primary Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Shop Now",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "default": "/collections/all",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary Button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary button text"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "default": true,
+      "label": "Show scroll indicator"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}

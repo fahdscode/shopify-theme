@@ -1,0 +1,139 @@
+{%- comment -%}
+  Product Card Snippet - Oppozite Wears
+  Reusable product card component
+{%- endcomment -%}
+
+{%- liquid
+  assign product = product
+  assign index = index | default: 0
+  
+  assign primary_image = product.featured_image
+  assign hover_image = product.images[1]
+  
+  assign is_new = false
+  assign product_tags = product.tags | join: ',' | downcase
+  if product_tags contains 'new'
+    assign is_new = true
+  endif
+  
+  assign is_sale = false
+  if product.compare_at_price > product.price
+    assign is_sale = true
+  endif
+  
+  assign is_sold_out = false
+  unless product.available
+    assign is_sold_out = true
+  endunless
+-%}
+
+<article class="product-card">
+  <a href="{{ product.url }}" class="product-card-link">
+    {%- comment -%} Image Container {%- endcomment -%}
+    <div class="product-card-media">
+      {%- if primary_image != blank -%}
+        <img 
+          src="{{ primary_image | image_url: width: 600 }}"
+          srcset="{{ primary_image | image_url: width: 300 }} 300w,
+                  {{ primary_image | image_url: width: 450 }} 450w,
+                  {{ primary_image | image_url: width: 600 }} 600w"
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+          alt="{{ primary_image.alt | default: product.title | escape }}"
+          loading="lazy"
+          class="product-card-image-primary"
+          width="{{ primary_image.width }}"
+          height="{{ primary_image.height }}"
+        >
+        
+        {%- if hover_image != blank -%}
+          <img 
+            src="{{ hover_image | image_url: width: 600 }}"
+            alt="{{ hover_image.alt | default: product.title | escape }}"
+            loading="lazy"
+            class="product-card-image-hover"
+            width="{{ hover_image.width }}"
+            height="{{ hover_image.height }}"
+          >
+        {%- endif -%}
+      {%- else -%}
+        <div class="product-card-placeholder">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {%- endif -%}
+      
+      <div class="product-card-overlay"></div>
+      
+      {%- comment -%} Badges {%- endcomment -%}
+      <div class="product-card-badges">
+        {%- if is_new -%}
+          <span class="product-card-badge product-card-badge--new">New</span>
+        {%- endif -%}
+        
+        {%- if is_sale -%}
+          <span class="product-card-badge product-card-badge--sale">Sale</span>
+        {%- endif -%}
+        
+        {%- if is_sold_out -%}
+          <span class="product-card-badge product-card-badge--soldout">Sold Out</span>
+        {%- endif -%}
+      </div>
+      
+      {%- comment -%} Quick Add Button (Optional) {%- endcomment -%}
+      {%- if product.available and product.variants.size == 1 -%}
+        <div class="product-card-actions">
+          <button 
+            type="button" 
+            class="product-card-quick-add"
+            data-product-id="{{ product.variants.first.id }}"
+            data-action="quick-add"
+          >
+            Quick Add
+          </button>
+        </div>
+      {%- elsif product.available -%}
+        <div class="product-card-actions">
+          <span class="product-card-quick-add">
+            Select Options
+          </span>
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- comment -%} Product Info {%- endcomment -%}
+    <div class="product-card-info">
+      {%- if settings.show_vendor -%}
+        <p class="product-card-vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+      
+      <h3 class="product-card-title">{{ product.title }}</h3>
+      
+      <div class="product-card-price">
+        {%- if is_sale -%}
+          <span class="product-card-price-current">{{ product.price | money }}</span>
+          <span class="product-card-price-compare">{{ product.compare_at_price | money }}</span>
+        {%- else -%}
+          <span class="product-card-price-current">{{ product.price | money }}</span>
+        {%- endif -%}
+      </div>
+      
+      {%- comment -%} Color Swatches (if product has color options) {%- endcomment -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign option_name = option.name | downcase -%}
+        {%- if option_name == 'color' or option_name == 'colour' -%}
+          <div class="product-card-swatches">
+            {%- for value in option.values limit: 5 -%}
+              <span 
+                class="product-card-swatch" 
+                style="background-color: {{ value | handleize }};"
+                title="{{ value }}"
+              ></span>
+            {%- endfor -%}
+            {%- if option.values.size > 5 -%}
+              <span class="product-card-swatch-more">+{{ option.values.size | minus: 5 }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </a>
+</article>

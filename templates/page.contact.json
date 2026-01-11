@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-contact",
+      "settings": {
+        "title": "GET IN TOUCH",
+        "subtitle": "We'd love to hear from you"
+      }
+    }
+  },
+  "order": ["main"]
+}

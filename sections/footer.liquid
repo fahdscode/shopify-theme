@@ -1,0 +1,269 @@
+{%- comment -%}
+  Footer Section - Oppozite Wears
+  Newsletter signup, navigation links, social links, and legal information
+{%- endcomment -%}
+
+<footer class="footer" data-section-id="{{ section.id }}">
+  {%- comment -%} Newsletter Section {%- endcomment -%}
+  {%- if section.settings.show_newsletter -%}
+  <div class="footer-newsletter">
+    <div class="container">
+      <div class="footer-newsletter-content">
+        <h3 class="footer-newsletter-title">{{ section.settings.newsletter_title | default: 'JOIN THE MOVEMENT' }}</h3>
+        <p class="footer-newsletter-text">{{ section.settings.newsletter_text | default: 'Subscribe for exclusive drops, early access & 10% off your first order' }}</p>
+        
+        {%- form 'customer', id: 'footer-newsletter-form', class: 'footer-newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          
+          <input 
+            type="email" 
+            name="contact[email]" 
+            class="footer-newsletter-input" 
+            placeholder="{{ 'general.newsletter.email_placeholder' | t | default: 'Enter your email' }}"
+            required
+            autocomplete="email"
+            aria-label="{{ 'general.newsletter.email_placeholder' | t }}"
+          >
+          
+          <button type="submit" class="footer-newsletter-btn">
+            {{ 'general.newsletter.submit' | t | default: 'Subscribe' }}
+          </button>
+          
+          {%- if form.posted_successfully? -%}
+            <p class="footer-newsletter-success" style="color: hsl(142 76% 36%); margin-top: 1rem; font-size: 0.875rem;">
+              {{ 'general.newsletter.confirmation' | t | default: 'Thank you for subscribing!' }}
+            </p>
+          {%- endif -%}
+          
+          {%- if form.errors -%}
+            <p class="footer-newsletter-error" style="color: hsl(0 84% 60%); margin-top: 1rem; font-size: 0.875rem;">
+              {{ form.errors.messages['email'] }}
+            </p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} Footer Main Content {%- endcomment -%}
+  <div class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        {%- comment -%} Brand Column {%- endcomment -%}
+        <div class="footer-brand">
+          <a href="{{ routes.root_url }}" class="footer-logo">
+            {%- if section.settings.footer_logo != blank -%}
+              <img 
+                src="{{ section.settings.footer_logo | image_url: width: 200 }}" 
+                alt="{{ shop.name }}"
+                width="{{ section.settings.footer_logo.width }}"
+                height="{{ section.settings.footer_logo.height }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <span class="text-display" style="font-size: 1.5rem; letter-spacing: 0.1em; color: hsl(var(--background));">{{ shop.name | upcase }}</span>
+            {%- endif -%}
+          </a>
+          <p class="footer-brand-text">{{ section.settings.brand_description | default: 'Premium streetwear for those who dare to be different. Stand out. Be authentic.' }}</p>
+          
+          {%- comment -%} Social Links {%- endcomment -%}
+          <div class="footer-social">
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            {%- endif -%}
+            
+            {%- if settings.social_facebook_link != blank -%}
+              <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+            
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="TikTok">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+            
+            {%- if settings.social_twitter_link != blank -%}
+              <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Footer Menu Columns {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'menu' -%}
+            <div class="footer-column" {{ block.shopify_attributes }}>
+              <h4 class="footer-column-title">{{ block.settings.menu_title }}</h4>
+              <ul class="footer-links">
+                {%- for link in block.settings.menu.links -%}
+                  <li>
+                    <a href="{{ link.url }}" class="footer-link">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Footer Bottom {%- endcomment -%}
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="footer-bottom-content">
+        <p class="footer-copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'general.footer.copyright' | t | default: 'All rights reserved.' }}
+        </p>
+        
+        <div class="footer-legal-links">
+          {%- if section.settings.privacy_link != blank -%}
+            <a href="{{ section.settings.privacy_link }}" class="footer-legal-link">Privacy Policy</a>
+          {%- endif -%}
+          {%- if section.settings.terms_link != blank -%}
+            <a href="{{ section.settings.terms_link }}" class="footer-legal-link">Terms of Service</a>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%} Payment Icons {%- endcomment -%}
+        {%- if section.settings.show_payment_icons -%}
+        <div class="footer-payments">
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag: class: 'footer-payment-icon' }}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "default": true,
+      "label": "Show newsletter section"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "default": "JOIN THE MOVEMENT",
+      "label": "Newsletter title"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "default": "Subscribe for exclusive drops, early access & 10% off your first order",
+      "label": "Newsletter description"
+    },
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_logo",
+      "label": "Footer logo (light version)"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "default": "Premium streetwear for those who dare to be different. Stand out. Be authentic.",
+      "label": "Brand description"
+    },
+    {
+      "type": "header",
+      "content": "Legal Links"
+    },
+    {
+      "type": "url",
+      "id": "privacy_link",
+      "label": "Privacy policy link"
+    },
+    {
+      "type": "url",
+      "id": "terms_link",
+      "label": "Terms of service link"
+    },
+    {
+      "type": "header",
+      "content": "Payment Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "default": true,
+      "label": "Show payment icons"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_title",
+          "default": "Shop",
+          "label": "Column title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        {
+          "type": "menu",
+          "settings": {
+            "menu_title": "Shop"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "menu_title": "Help"
+          }
+        },
+        {
+          "type": "menu",
+          "settings": {
+            "menu_title": "About"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

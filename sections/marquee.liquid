@@ -1,0 +1,106 @@
+{%- comment -%}
+  Marquee Section - Oppozite Wears
+  Scrolling text announcement banner
+{%- endcomment -%}
+
+<section class="marquee-section" data-section-id="{{ section.id }}">
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      {%- assign text_content = section.settings.text | default: "NEW ARRIVALS — FREE SHIPPING OVER $150 — EXCLUSIVE DROPS — " -%}
+      {%- for i in (1..4) -%}
+        <span class="marquee-content">{{ text_content }}</span>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .marquee-section {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    padding: 0.75rem 0;
+    overflow: hidden;
+    border-top: 1px solid hsl(var(--background) / 0.2);
+    border-bottom: 1px solid hsl(var(--background) / 0.2);
+  }
+
+  .marquee-wrapper {
+    display: flex;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: flex;
+    animation: marquee {{ section.settings.speed | default: 30 }}s linear infinite;
+  }
+
+  .marquee-content {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0 1rem;
+    cursor: default;
+    transition: color var(--transition-fast);
+  }
+
+  .marquee-content:hover {
+    color: hsl(var(--background) / 0.7);
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-section:hover .marquee-track {
+    animation-play-state: paused;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Marquee",
+  "tag": "section",
+  "class": "section-marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "default": "NEW ARRIVALS — FREE SHIPPING OVER $150 — EXCLUSIVE DROPS — ",
+      "label": "Marquee text",
+      "info": "Text will repeat automatically"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "default": 30,
+      "unit": "s",
+      "label": "Animation speed"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#000000",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#ffffff",
+      "label": "Text color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee"
+    }
+  ]
+}
+{% endschema %}

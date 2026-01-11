@@ -1,0 +1,160 @@
+{%- comment -%}
+  About Story Section - Oppozite Wears
+  Brand story with image and text
+{%- endcomment -%}
+
+{%- style -%}
+  .about-story {
+    padding: var(--section-spacing) var(--container-padding);
+  }
+  
+  .about-story-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+  
+  .about-story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+  
+  @media (min-width: 768px) {
+    .about-story-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-3xl);
+    }
+  }
+  
+  .about-story-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+  
+  .about-story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .about-story-content {
+    padding: var(--spacing-xl) 0;
+  }
+  
+  .about-story-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .about-story-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 var(--spacing-lg);
+  }
+  
+  .about-story-text {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted-foreground);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .about-story-text p {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .about-story-signature {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-top: var(--spacing-xl);
+  }
+{%- endstyle -%}
+
+<section class="about-story">
+  <div class="about-story-container">
+    <div class="about-story-grid">
+      <div class="about-story-image" data-animate>
+        {%- if section.settings.image != blank -%}
+          <img 
+            src="{{ section.settings.image | image_url: width: 800 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            width="800"
+            height="1000"
+            loading="lazy"
+          >
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+      
+      <div class="about-story-content" data-animate>
+        {%- if section.settings.label != blank -%}
+          <p class="about-story-label">{{ section.settings.label }}</p>
+        {%- endif -%}
+        
+        <h2 class="about-story-title">{{ section.settings.title }}</h2>
+        
+        <div class="about-story-text">
+          {{ section.settings.text }}
+        </div>
+        
+        {%- if section.settings.signature != blank -%}
+          <p class="about-story-signature">— {{ section.settings.signature }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Story",
+  "tag": "section",
+  "class": "section-about-story",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "BORN FROM THE STREETS"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Oppozite was founded with a simple belief: fashion should be a form of rebellion. We create pieces that challenge conventions and empower individuals to express their authentic selves.</p><p>Every garment is designed with intention, crafted with precision, and made to make a statement. We don't follow trends — we set them.</p>"
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signature",
+      "default": "The Oppozite Team"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Story"
+    }
+  ]
+}
+{% endschema %}

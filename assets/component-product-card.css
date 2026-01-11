@@ -1,0 +1,304 @@
+/* ========================================
+   PRODUCT CARD - Oppozite Wears Theme
+   ======================================== */
+
+/* ----------------------------------------
+   Product Card Container
+   ---------------------------------------- */
+.product-card {
+  position: relative;
+  display: block;
+}
+
+/* ----------------------------------------
+   Image Container
+   ---------------------------------------- */
+.product-card-media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background-color: hsl(var(--muted));
+  overflow: hidden;
+}
+
+.product-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card-image-primary {
+  transition: opacity 0.5s ease-out, transform 0.7s ease-out;
+}
+
+.product-card-image-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-out, transform 0.7s ease-out;
+}
+
+.product-card:hover .product-card-image-primary {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+.product-card:hover .product-card-image-hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Overlay Effect */
+.product-card-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: hsl(var(--foreground) / 0);
+  transition: background-color var(--transition-smooth);
+  pointer-events: none;
+}
+
+.product-card:hover .product-card-overlay {
+  background-color: hsl(var(--foreground) / 0.05);
+}
+
+/* ----------------------------------------
+   Badges
+   ---------------------------------------- */
+.product-card-badges {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.product-card-badge {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.product-card-badge--new {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.product-card-badge--sale {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--foreground));
+}
+
+.product-card-badge--soldout {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+/* ----------------------------------------
+   Quick Actions (Optional)
+   ---------------------------------------- */
+.product-card-actions {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all var(--transition-smooth);
+  z-index: 2;
+}
+
+.product-card:hover .product-card-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card-quick-add {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: all var(--transition-fast);
+}
+
+.product-card-quick-add:hover {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* ----------------------------------------
+   Product Info
+   ---------------------------------------- */
+.product-card-info {
+  padding-top: 1rem;
+}
+
+.product-card-vendor {
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.25rem;
+}
+
+.product-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.25rem;
+  transition: text-decoration var(--transition-fast);
+}
+
+.product-card:hover .product-card-title {
+  text-decoration: underline;
+}
+
+.product-card-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.product-card-price-current {
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.product-card-price-compare {
+  color: hsl(var(--muted-foreground));
+  text-decoration: line-through;
+}
+
+/* ----------------------------------------
+   Swatches (Color Options)
+   ---------------------------------------- */
+.product-card-swatches {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.product-card-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--border));
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.product-card-swatch:hover {
+  transform: scale(1.1);
+}
+
+.product-card-swatch.is-active {
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3px hsl(var(--foreground));
+}
+
+/* ----------------------------------------
+   Loading/Skeleton State
+   ---------------------------------------- */
+.product-card-skeleton .product-card-media {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.product-card-skeleton .product-card-title,
+.product-card-skeleton .product-card-price {
+  background-color: hsl(var(--muted));
+  color: transparent;
+  border-radius: 4px;
+  width: 70%;
+  height: 1em;
+}
+
+.product-card-skeleton .product-card-price {
+  width: 40%;
+  margin-top: 0.5rem;
+}
+
+/* ----------------------------------------
+   Grid Layouts
+   ---------------------------------------- */
+.product-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Featured Products - Larger Grid */
+.product-grid--featured {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .product-grid--featured {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ----------------------------------------
+   Wishlist Button (Optional)
+   ---------------------------------------- */
+.product-card-wishlist {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hsl(var(--background));
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all var(--transition-smooth);
+  z-index: 2;
+}
+
+.product-card:hover .product-card-wishlist {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card-wishlist:hover {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.product-card-wishlist svg {
+  width: 18px;
+  height: 18px;
+}
+
+.product-card-wishlist.is-wishlisted svg {
+  fill: currentColor;
+}

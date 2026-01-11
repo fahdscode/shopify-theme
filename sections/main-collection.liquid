@@ -1,0 +1,248 @@
+{%- comment -%}
+  Collection Template - Oppozite Wears
+  Shop/Collection page with product grid
+{%- endcomment -%}
+
+<div class="collection-page">
+  {%- comment -%} Hero Section {%- endcomment -%}
+  <section class="collection-hero">
+    <div class="container">
+      <h1 class="collection-title" data-animate="fade-up">{{ collection.title | upcase }}</h1>
+      {%- if collection.description != blank -%}
+        <p class="collection-description" data-animate="fade-up" data-delay="100">
+          {{ collection.description | strip_html | truncate: 200 }}
+        </p>
+      {%- endif -%}
+    </div>
+  </section>
+
+  {%- comment -%} Filters & Sorting {%- endcomment -%}
+  <section class="collection-toolbar">
+    <div class="container">
+      <div class="collection-toolbar-inner">
+        <div class="collection-count">
+          {{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}
+        </div>
+        
+        <div class="collection-filters">
+          {%- comment -%} Sort By {%- endcomment -%}
+          <div class="collection-sort">
+            <label for="sort-by" class="visually-hidden">Sort by</label>
+            <select id="sort-by" class="collection-sort-select" onchange="window.location.href = this.value;">
+              {%- assign sort_options = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-ascending,created-descending' | split: ',' -%}
+              {%- assign sort_labels = 'Featured,Best Selling,A-Z,Z-A,Price: Low to High,Price: High to Low,Oldest to Newest,Newest to Oldest' | split: ',' -%}
+              {%- for option in sort_options -%}
+                <option value="{{ collection.url }}?sort_by={{ option }}" {% if collection.sort_by == option %}selected{% endif %}>
+                  {{ sort_labels[forloop.index0] }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} Products Grid {%- endcomment -%}
+  <section class="collection-products section">
+    <div class="container">
+      {%- paginate collection.products by 16 -%}
+        {%- if collection.products.size > 0 -%}
+          <div class="product-grid">
+            {%- for product in collection.products -%}
+              <div class="product-grid-item" data-animate="fade-up" data-delay="{{ forloop.index | modulo: 4 | times: 50 }}">
+                {% render 'product-card', product: product, index: forloop.index %}
+              </div>
+            {%- endfor -%}
+          </div>
+          
+          {%- comment -%} Pagination {%- endcomment -%}
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="Pagination">
+              <ul class="pagination-list">
+                {%- if paginate.previous -%}
+                  <li>
+                    <a href="{{ paginate.previous.url }}" class="pagination-link pagination-prev" aria-label="Previous page">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </a>
+                  </li>
+                {%- endif -%}
+                
+                {%- for part in paginate.parts -%}
+                  <li>
+                    {%- if part.is_link -%}
+                      <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+                    {%- else -%}
+                      <span class="pagination-link pagination-current" aria-current="page">{{ part.title }}</span>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+                
+                {%- if paginate.next -%}
+                  <li>
+                    <a href="{{ paginate.next.url }}" class="pagination-link pagination-next" aria-label="Next page">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </a>
+                  </li>
+                {%- endif -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- else -%}
+          <div class="empty-state">
+            <p class="empty-state-title">No products found</p>
+            <p class="empty-state-text">Try adjusting your filters or browse our other collections.</p>
+            <a href="{{ routes.collections_url }}" class="btn-primary">View All Collections</a>
+          </div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </section>
+</div>
+
+<style>
+  .collection-hero {
+    padding: 4rem 0 3rem;
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .collection-hero {
+      padding: 6rem 0 4rem;
+    }
+  }
+
+  .collection-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    margin: 0 0 1rem;
+  }
+
+  .collection-description {
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: hsl(var(--background) / 0.6);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .collection-toolbar {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .collection-toolbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .collection-count {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .collection-sort-select {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    font-size: 0.875rem;
+    background: transparent;
+    border: 1px solid hsl(var(--border));
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+  }
+
+  .collection-products {
+    padding: 3rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .collection-products {
+      padding: 5rem 0;
+    }
+  }
+
+  /* Pagination */
+  .pagination {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pagination-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    border: 1px solid hsl(var(--border));
+    transition: all var(--transition-fast);
+  }
+
+  .pagination-link:hover:not(.pagination-current) {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-color: hsl(var(--foreground));
+  }
+
+  .pagination-current {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-color: hsl(var(--foreground));
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": true,
+      "label": "Show collection image"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,398 @@
+{%- comment -%}
+  Lookbook Section - Oppozite Wears
+  Horizontal scrolling collection showcase
+{%- endcomment -%}
+
+<section class="lookbook-section section" data-section-id="{{ section.id }}">
+  <div class="container lookbook-header">
+    <div class="lookbook-title-wrapper" data-animate="fade-up">
+      {%- if section.settings.overline != blank -%}
+        <span class="lookbook-overline">{{ section.settings.overline }}</span>
+      {%- endif -%}
+      <h2 class="lookbook-title">{{ section.settings.title | default: 'LOOKBOOK' }}</h2>
+    </div>
+    
+    <div class="lookbook-nav mobile:hidden" data-animate="fade-up" data-delay="100">
+      <button class="lookbook-nav-btn" data-lookbook-prev aria-label="Previous">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      <button class="lookbook-nav-btn" data-lookbook-next aria-label="Next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="lookbook-carousel" data-lookbook-carousel>
+    <div class="lookbook-track">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="lookbook-slide" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <div class="lookbook-image-wrapper image-grayscale">
+                <img 
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  srcset="{{ block.settings.image | image_url: width: 400 }} 400w,
+                          {{ block.settings.image | image_url: width: 600 }} 600w,
+                          {{ block.settings.image | image_url: width: 800 }} 800w"
+                  sizes="(min-width: 768px) 30vw, 70vw"
+                  alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy"
+                  class="lookbook-image"
+                >
+              </div>
+            {%- elsif block.settings.collection != blank -%}
+              {%- assign collection = block.settings.collection -%}
+              {%- assign collection_image = collection.image | default: collection.products.first.featured_image -%}
+              {%- if collection_image != blank -%}
+                <div class="lookbook-image-wrapper image-grayscale">
+                  <img 
+                    src="{{ collection_image | image_url: width: 800 }}"
+                    alt="{{ collection_image.alt | default: collection.title | escape }}"
+                    width="{{ collection_image.width }}"
+                    height="{{ collection_image.height }}"
+                    loading="lazy"
+                    class="lookbook-image"
+                  >
+                </div>
+              {%- else -%}
+                <div class="lookbook-placeholder">
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <div class="lookbook-placeholder">
+                {{ 'collection-1' | placeholder_svg_tag }}
+              </div>
+            {%- endif -%}
+            
+            <div class="lookbook-content">
+              <span class="lookbook-slide-index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <h3 class="lookbook-slide-title">
+                {%- if block.settings.title != blank -%}
+                  {{ block.settings.title }}
+                {%- elsif block.settings.collection != blank -%}
+                  {{ block.settings.collection.title }}
+                {%- endif -%}
+              </h3>
+              {%- if block.settings.link != blank or block.settings.collection != blank -%}
+                <a href="{{ block.settings.link | default: block.settings.collection.url }}" class="lookbook-slide-link">
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default placeholder slides {%- endcomment -%}
+        {%- for i in (1..4) -%}
+          <div class="lookbook-slide">
+            <div class="lookbook-placeholder">
+              {{ 'collection-1' | placeholder_svg_tag }}
+            </div>
+            <div class="lookbook-content">
+              <span class="lookbook-slide-index">0{{ i }}</span>
+              <h3 class="lookbook-slide-title">Collection {{ i }}</h3>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .lookbook-section {
+    padding: 6rem 0;
+    overflow: hidden;
+    background-color: hsl(var(--background));
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-section {
+      padding: 8rem 0;
+    }
+  }
+
+  .lookbook-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-header {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .lookbook-overline {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 0.5rem;
+  }
+
+  .lookbook-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    margin: 0;
+  }
+
+  .lookbook-nav {
+    display: none;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-nav {
+      display: flex;
+    }
+  }
+
+  .lookbook-nav-btn {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: 50%;
+    transition: all var(--transition-smooth);
+  }
+
+  .lookbook-nav-btn:hover {
+    background-color: hsl(var(--foreground));
+    color: hsl(var(--background));
+    border-color: hsl(var(--foreground));
+  }
+
+  .lookbook-carousel {
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    padding-left: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-carousel {
+      padding-left: calc((100vw - var(--container-max-width)) / 2 + var(--container-padding));
+    }
+  }
+
+  .lookbook-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lookbook-carousel:active {
+    cursor: grabbing;
+  }
+
+  .lookbook-track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-track {
+      gap: 2rem;
+      padding-right: 4rem;
+    }
+  }
+
+  .lookbook-slide {
+    position: relative;
+    width: 70vw;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .lookbook-slide {
+      width: 30vw;
+    }
+  }
+
+  .lookbook-image-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .lookbook-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease-out, filter 0.5s ease-out;
+    filter: grayscale(100%);
+  }
+
+  .lookbook-slide:hover .lookbook-image {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+  }
+
+  .lookbook-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: hsl(var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lookbook-placeholder svg {
+    width: 50%;
+    height: auto;
+    opacity: 0.3;
+  }
+
+  .lookbook-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: white;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all var(--transition-smooth);
+  }
+
+  .lookbook-slide:hover .lookbook-content {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .lookbook-slide-index {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .lookbook-slide-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .lookbook-slide-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: white;
+    transition: gap var(--transition-smooth);
+  }
+
+  .lookbook-slide-link:hover {
+    gap: 0.75rem;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.querySelector('[data-lookbook-carousel]');
+    const prevBtn = document.querySelector('[data-lookbook-prev]');
+    const nextBtn = document.querySelector('[data-lookbook-next]');
+    
+    if (carousel && prevBtn && nextBtn) {
+      const slideWidth = carousel.querySelector('.lookbook-slide')?.offsetWidth || 400;
+      const gap = 32;
+      
+      prevBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: -(slideWidth + gap), behavior: 'smooth' });
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: slideWidth + gap, behavior: 'smooth' });
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Lookbook",
+  "tag": "section",
+  "class": "section-lookbook",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "default": "Editorial",
+      "label": "Overline text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "LOOKBOOK",
+      "label": "Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection (fallback for image)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

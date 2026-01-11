@@ -1,0 +1,182 @@
+{%- comment -%}
+  About Values Section - Oppozite Wears
+  Brand values grid
+{%- endcomment -%}
+
+{%- style -%}
+  .about-values {
+    padding: var(--section-spacing) var(--container-padding);
+    background: var(--muted);
+  }
+  
+  .about-values-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+  
+  .about-values-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+  
+  .about-values-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    margin: 0;
+  }
+  
+  .about-values-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  @media (min-width: 768px) {
+    .about-values-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .about-value {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: var(--background);
+  }
+  
+  .about-value-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--spacing-md);
+    color: var(--foreground);
+  }
+  
+  .about-value-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0 0 var(--spacing-sm);
+  }
+  
+  .about-value-text {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--muted-foreground);
+    margin: 0;
+  }
+{%- endstyle -%}
+
+<section class="about-values">
+  <div class="about-values-container">
+    <header class="about-values-header">
+      <h2 class="about-values-title">{{ section.settings.title }}</h2>
+    </header>
+    
+    <div class="about-values-grid">
+      {%- for block in section.blocks -%}
+        <div class="about-value" data-animate {{ block.shopify_attributes }}>
+          {%- case block.settings.icon -%}
+            {%- when 'quality' -%}
+              <svg class="about-value-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            {%- when 'sustainability' -%}
+              <svg class="about-value-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+            {%- when 'authenticity' -%}
+              <svg class="about-value-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            {%- else -%}
+              <svg class="about-value-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+          {%- endcase -%}
+          
+          <h3 class="about-value-title">{{ block.settings.title }}</h3>
+          <p class="about-value-text">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Values",
+  "tag": "section",
+  "class": "section-about-values",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "OUR VALUES"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "quality", "label": "Quality (Star)" },
+            { "value": "sustainability", "label": "Sustainability (Shield)" },
+            { "value": "authenticity", "label": "Authenticity (Heart)" }
+          ],
+          "default": "quality"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Quality First"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Every piece is crafted with premium materials and attention to detail."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Values",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "icon": "quality",
+            "title": "QUALITY",
+            "text": "Premium materials. Expert craftsmanship. Every stitch matters."
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "icon": "sustainability",
+            "title": "SUSTAINABILITY",
+            "text": "Responsible production. Ethical sourcing. Fashion with a conscience."
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "icon": "authenticity",
+            "title": "AUTHENTICITY",
+            "text": "True to ourselves. True to our community. No compromises."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

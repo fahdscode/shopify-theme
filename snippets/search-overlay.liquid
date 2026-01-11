@@ -1,0 +1,463 @@
+{%- comment -%}
+  Search Overlay Snippet - Oppozite Wears
+  Full-screen search modal
+{%- endcomment -%}
+
+<div class="search-overlay" id="searchOverlay" data-search-overlay aria-hidden="true">
+  <div class="search-overlay-container">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="search-overlay-header">
+      <form action="{{ routes.search_url }}" method="get" class="search-overlay-form" role="search">
+        <input type="hidden" name="type" value="product">
+        <input type="hidden" name="options[prefix]" value="last">
+        
+        <div class="search-overlay-input-wrapper">
+          <svg class="search-overlay-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          
+          <input 
+            type="search"
+            name="q"
+            class="search-overlay-input"
+            placeholder="Search for products..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            data-search-input
+            aria-label="Search"
+          >
+          
+          <button type="button" class="search-overlay-clear" data-search-clear aria-label="Clear search" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="15" y1="9" x2="9" y2="15"></line>
+              <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+          </button>
+        </div>
+        
+        <button type="button" class="search-overlay-close" data-search-close aria-label="Close search">
+          Cancel
+        </button>
+      </form>
+    </div>
+
+    {%- comment -%} Results Container {%- endcomment -%}
+    <div class="search-overlay-results" data-search-results>
+      {%- comment -%} Quick Links - shown when no search query {%- endcomment -%}
+      <div class="search-quick-links" data-search-quick-links>
+        <h3 class="search-section-title">Popular Searches</h3>
+        <ul class="search-quick-list">
+          <li><a href="{{ routes.search_url }}?q=t-shirt">T-Shirts</a></li>
+          <li><a href="{{ routes.search_url }}?q=hoodie">Hoodies</a></li>
+          <li><a href="{{ routes.search_url }}?q=jacket">Jackets</a></li>
+          <li><a href="{{ routes.search_url }}?q=pants">Pants</a></li>
+          <li><a href="{{ routes.search_url }}?q=accessories">Accessories</a></li>
+        </ul>
+        
+        {%- if collections.size > 0 -%}
+          <h3 class="search-section-title">Collections</h3>
+          <ul class="search-collections-list">
+            {%- for collection in collections limit: 6 -%}
+              {%- unless collection.handle == 'all' -%}
+                <li>
+                  <a href="{{ collection.url }}" class="search-collection-item">
+                    {%- if collection.image -%}
+                      <img 
+                        src="{{ collection.image | image_url: width: 100 }}"
+                        alt="{{ collection.title | escape }}"
+                        width="50"
+                        height="50"
+                        loading="lazy"
+                      >
+                    {%- endif -%}
+                    <span>{{ collection.title }}</span>
+                  </a>
+                </li>
+              {%- endunless -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Live Search Results {%- endcomment -%}
+      <div class="search-live-results" data-search-live-results hidden>
+        <div class="search-loading" data-search-loading hidden>
+          <div class="search-loading-spinner"></div>
+          <p>Searching...</p>
+        </div>
+        
+        <div class="search-products" data-search-products></div>
+        
+        <div class="search-no-results" data-search-no-results hidden>
+          <p class="search-no-results-title">No results found</p>
+          <p class="search-no-results-text">Try adjusting your search to find what you're looking for.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: var(--background);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .search-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .search-overlay-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+  }
+  
+  .search-overlay-header {
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .search-overlay-form {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  .search-overlay-input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--muted);
+    border-radius: 0;
+  }
+  
+  .search-overlay-icon {
+    color: var(--muted-foreground);
+    flex-shrink: 0;
+  }
+  
+  .search-overlay-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--foreground);
+    outline: none;
+  }
+  
+  .search-overlay-input::placeholder {
+    color: var(--muted-foreground);
+  }
+  
+  .search-overlay-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs);
+    background: transparent;
+    border: none;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .search-overlay-clear:hover {
+    color: var(--foreground);
+  }
+  
+  .search-overlay-close {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .search-overlay-results {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: var(--spacing-lg);
+  }
+  
+  .search-section-title {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .search-quick-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    list-style: none;
+    padding: 0;
+  }
+  
+  .search-quick-list a {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: var(--muted);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  
+  .search-quick-list a:hover {
+    background: var(--foreground);
+    color: var(--background);
+  }
+  
+  .search-collections-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+    list-style: none;
+    padding: 0;
+  }
+  
+  .search-collection-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    text-decoration: none;
+    color: var(--foreground);
+    transition: background 0.2s ease;
+  }
+  
+  .search-collection-item:hover {
+    background: var(--muted);
+  }
+  
+  .search-collection-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  
+  .search-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    gap: var(--spacing-md);
+  }
+  
+  .search-loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--muted);
+    border-top-color: var(--foreground);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  .search-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+  }
+  
+  .search-product-item {
+    display: block;
+    text-decoration: none;
+    color: var(--foreground);
+  }
+  
+  .search-product-item img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .search-product-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .search-product-price {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+  
+  .search-no-results {
+    text-align: center;
+    padding: var(--spacing-xl);
+  }
+  
+  .search-no-results-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .search-no-results-text {
+    color: var(--muted-foreground);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const overlay = document.querySelector('[data-search-overlay]');
+    const input = document.querySelector('[data-search-input]');
+    const clearBtn = document.querySelector('[data-search-clear]');
+    const closeBtn = document.querySelector('[data-search-close]');
+    const searchTriggers = document.querySelectorAll('[data-search-trigger]');
+    const quickLinks = document.querySelector('[data-search-quick-links]');
+    const liveResults = document.querySelector('[data-search-live-results]');
+    const productsContainer = document.querySelector('[data-search-products]');
+    const loadingEl = document.querySelector('[data-search-loading]');
+    const noResultsEl = document.querySelector('[data-search-no-results]');
+    
+    let searchTimeout;
+    
+    function openSearch() {
+      overlay.classList.add('is-active');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input.focus(), 100);
+    }
+    
+    function closeSearch() {
+      overlay.classList.remove('is-active');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      input.value = '';
+      clearBtn.hidden = true;
+      quickLinks.hidden = false;
+      liveResults.hidden = true;
+    }
+    
+    searchTriggers.forEach(trigger => {
+      trigger.addEventListener('click', openSearch);
+    });
+    
+    closeBtn.addEventListener('click', closeSearch);
+    
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeSearch();
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-active')) {
+        closeSearch();
+      }
+      if ((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        openSearch();
+      }
+    });
+    
+    input.addEventListener('input', function() {
+      const query = this.value.trim();
+      clearBtn.hidden = !query;
+      
+      clearTimeout(searchTimeout);
+      
+      if (!query) {
+        quickLinks.hidden = false;
+        liveResults.hidden = true;
+        return;
+      }
+      
+      quickLinks.hidden = true;
+      liveResults.hidden = false;
+      
+      searchTimeout = setTimeout(() => performSearch(query), 300);
+    });
+    
+    clearBtn.addEventListener('click', function() {
+      input.value = '';
+      clearBtn.hidden = true;
+      quickLinks.hidden = false;
+      liveResults.hidden = true;
+      input.focus();
+    });
+    
+    async function performSearch(query) {
+      loadingEl.hidden = false;
+      productsContainer.innerHTML = '';
+      noResultsEl.hidden = true;
+      
+      try {
+        const response = await fetch(
+          `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[limit]=12`
+        );
+        const data = await response.json();
+        
+        loadingEl.hidden = true;
+        
+        const products = data.resources?.results?.products || [];
+        
+        if (products.length === 0) {
+          noResultsEl.hidden = false;
+          return;
+        }
+        
+        productsContainer.innerHTML = products.map(product => `
+          <a href="${product.url}" class="search-product-item">
+            <img 
+              src="${product.image || ''}"
+              alt="${product.title}"
+              width="150"
+              height="200"
+              loading="lazy"
+            >
+            <h4 class="search-product-title">${product.title}</h4>
+            <p class="search-product-price">${formatMoney(product.price)}</p>
+          </a>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Search error:', error);
+        loadingEl.hidden = true;
+        noResultsEl.hidden = false;
+      }
+    }
+    
+    function formatMoney(cents) {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(cents / 100);
+    }
+    
+    // Expose for external use
+    window.OppoziteSearch = { open: openSearch, close: closeSearch };
+  });
+</script>

@@ -1,0 +1,39 @@
+{
+  "general": {
+    "newsletter": {
+      "email_placeholder": "Enter your email",
+      "submit": "Subscribe",
+      "confirmation": "Thank you for subscribing!"
+    },
+    "footer": {
+      "copyright": "All rights reserved."
+    },
+    "search": {
+      "search": "Search"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "menu": "Menu",
+    "main_nav": "Main navigation"
+  },
+  "customer": {
+    "account": {
+      "title": "Account"
+    },
+    "log_out": "Log out",
+    "login": {
+      "sign_in": "Sign in"
+    },
+    "register": {
+      "title": "Create account"
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "Cart",
+      "cart_error": "Cart error",
+      "cart_quantity_error_html": "You can only add [quantity] of this item to your cart."
+    }
+  }
+}

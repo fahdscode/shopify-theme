@@ -1,0 +1,301 @@
+/* ========================================
+   FOOTER - Oppozite Wears Theme
+   ======================================== */
+
+/* ----------------------------------------
+   Footer Container
+   ---------------------------------------- */
+.footer {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* ----------------------------------------
+   Newsletter Section
+   ---------------------------------------- */
+.footer-newsletter {
+  border-bottom: 1px solid hsl(var(--background) / 0.2);
+  padding: 4rem 0;
+}
+
+.footer-newsletter-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-newsletter-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.footer-newsletter-text {
+  font-size: 0.875rem;
+  color: hsl(var(--background) / 0.6);
+  margin-bottom: 2rem;
+}
+
+.footer-newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .footer-newsletter-form {
+    flex-direction: row;
+  }
+}
+
+.footer-newsletter-input {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 1px solid hsl(var(--background) / 0.3);
+  color: hsl(var(--background));
+  transition: border-color var(--transition-fast);
+}
+
+.footer-newsletter-input::placeholder {
+  color: hsl(var(--background) / 0.4);
+}
+
+.footer-newsletter-input:focus {
+  outline: none;
+  border-color: hsl(var(--background));
+}
+
+.footer-newsletter-btn {
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  transition: background-color var(--transition-smooth);
+}
+
+.footer-newsletter-btn:hover {
+  background-color: hsl(var(--background) / 0.9);
+}
+
+/* ----------------------------------------
+   Footer Main Content
+   ---------------------------------------- */
+.footer-main {
+  padding: 4rem 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 3rem;
+  }
+}
+
+/* Footer Brand */
+.footer-brand {
+  grid-column: span 2;
+}
+
+@media (min-width: 768px) {
+  .footer-brand {
+    grid-column: span 1;
+  }
+}
+
+.footer-logo {
+  display: block;
+  max-width: 180px;
+  margin-bottom: 1rem;
+}
+
+.footer-logo img {
+  width: 100%;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand-text {
+  font-size: 0.875rem;
+  color: hsl(var(--background) / 0.6);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+/* Social Links */
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid hsl(var(--background) / 0.3);
+  transition: all var(--transition-smooth);
+}
+
+.footer-social-link:hover {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--background));
+}
+
+.footer-social-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Footer Links */
+.footer-column-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-link {
+  font-size: 0.875rem;
+  color: hsl(var(--background) / 0.6);
+  transition: color var(--transition-fast);
+}
+
+.footer-link:hover {
+  color: hsl(var(--background));
+}
+
+/* ----------------------------------------
+   Footer Bottom
+   ---------------------------------------- */
+.footer-bottom {
+  border-top: 1px solid hsl(var(--background) / 0.2);
+  padding: 1.5rem 0;
+}
+
+.footer-bottom-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: hsl(var(--background) / 0.5);
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-legal-link {
+  font-size: 0.75rem;
+  color: hsl(var(--background) / 0.5);
+  transition: color var(--transition-fast);
+}
+
+.footer-legal-link:hover {
+  color: hsl(var(--background));
+}
+
+/* Payment Icons */
+.footer-payments {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.footer-payment-icon {
+  height: 24px;
+  width: auto;
+  opacity: 0.6;
+}
+
+/* ----------------------------------------
+   Country/Currency Selector
+   ---------------------------------------- */
+.footer-localization {
+  position: relative;
+}
+
+.footer-localization-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  color: hsl(var(--background) / 0.6);
+  border: 1px solid hsl(var(--background) / 0.3);
+  transition: all var(--transition-fast);
+}
+
+.footer-localization-btn:hover {
+  color: hsl(var(--background));
+  border-color: hsl(var(--background) / 0.5);
+}
+
+.footer-localization-dropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  min-width: 150px;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all var(--transition-smooth);
+}
+
+.footer-localization:hover .footer-localization-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.footer-localization-option {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-align: left;
+  color: hsl(var(--foreground));
+  transition: background-color var(--transition-fast);
+}
+
+.footer-localization-option:hover {
+  background-color: hsl(var(--muted));
+}

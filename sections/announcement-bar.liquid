@@ -1,0 +1,58 @@
+{%- comment -%}
+  Announcement Bar Section - Oppozite Wears
+  Displays a promotional message at the top of the page
+{%- endcomment -%}
+
+{%- if section.settings.show_announcement -%}
+<div class="announcement-bar" id="announcementBar" data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.announcement_link != blank -%}
+      <a href="{{ section.settings.announcement_link }}" class="announcement-text announcement-link">
+        {{ section.settings.announcement_text }}
+      </a>
+    {%- else -%}
+      <p class="announcement-text">
+        {{ section.settings.announcement_text | default: 'FREE SHIPPING ON ORDERS OVER $150' }}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "class": "section-announcement",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "default": true,
+      "label": "Show announcement bar"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "default": "FREE SHIPPING ON ORDERS OVER $150 — NEW ARRIVALS DROPPING SOON",
+      "label": "Announcement text"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "default": "#000000",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "default": "#ffffff",
+      "label": "Text color"
+    }
+  ]
+}
+{% endschema %}
